@@ -1,6 +1,5 @@
 import configparser
 from pyrogram import Client, filters
-import time
 import asyncio
 
 # Load configuration
@@ -18,14 +17,7 @@ async def handle_message(client, message):
     # Respond with "pong" if the message is "ping"
     if message.text.lower() == "ping":
         await message.reply_text("Pong")
-    
-    # Keep the account online by sending a message every 5 minutes
-    while True:
-        try:
-            await client.send_message("me", "I am still here!")
-            await asyncio.sleep(300)  # Sleep for 5 minutes
-        except Exception as e:
-            print(f"An error occurred: {e}")
 
 if __name__ == '__main__':
+    # Start the client
     app.run()
