@@ -16,7 +16,7 @@ echo "Setting up the Python environment..."
 
 # Create a tarball of the project excluding sensitive files
 echo "Creating tarball of the project..."
-tar czf project.tar.gz -C "$LOCAL_PATH" . --exclude="*.git" --exclude=".env" --exclude="my_account.session" --exclude="my_account.session-journal"
+tar czf project.tar.gz -C "$LOCAL_PATH" . --exclude="*.git" --exclude=".env" --exclude="*.session" --exclude="*.session-journal"
 
 # Copy the tarball to the Raspberry Pi
 echo "Copying tarball to Raspberry Pi..."
@@ -36,10 +36,19 @@ ssh $RPI_USER@$RPI_HOST << EOF
     # Install dependencies
     pip install -r requirements.txt
 
-    # Run setup or start commands, e.g.,
-    python3 bot.py
-    # or if using a specific tool to manage the application, such as gunicorn:
-    # gunicorn --bind 0.0.0.0:8000 myapp:app
+    # Install pm2 if not already installed
+    if ! command -v pm2 &> /dev/null
+    then
+        echo "pm2 not found, installing..."
+        npm install -g pm2
+    fi
+
+    # Start the Python script using pm2
+    pm2 start bot.py --name telegram-idle-bot --interpreter python3
+
+    # Save pm2 process list and set up pm2 to restart on reboot
+    pm2 save
+    pm2 startup
 EOF
 
 # Clean up
