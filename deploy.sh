@@ -81,6 +81,9 @@ ssh $RPI_USER@$RPI_HOST << EOF
     pm2 save
     pm2 startup
 
+    # Enable PM2 service to start on boot
+    sudo pm2 startup systemd -u $RPI_USER --hp /home/$RPI_USER
+
     # Optional: Check PM2 status
     pm2 ls
 EOF
