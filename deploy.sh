@@ -2,7 +2,7 @@
 
 # Define variables
 RPI_USER="peter"         # Raspberry Pi username
-RPI_HOST="42.115.159.217"  # Raspberry Pi IP address (port 22 is default for SSH)
+RPI_HOST="peterpi.local"  # Raspberry Pi IP address (port 22 is default for SSH)
 RPI_PATH="/home/peter/telegram-idle-bot/"  # Path on Raspberry Pi to deploy the project
 LOCAL_PATH=$(pwd)         # Current directory (assuming deploy.sh is in the project root)
 
